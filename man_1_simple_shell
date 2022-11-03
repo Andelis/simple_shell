@@ -1,0 +1,38 @@
+\" Man page for simple shell project
+.TH man 1 "04 Nov 2022" "1.0" "simple_shell project man"
+.SH NAME
+.simple_shell
+\
+simple_shell - simple_shell (hsh) is a simple and basic shell, command-lne interpreter that provides you an interface to the Linux system, permi you execute commands like shell (sh) console command.
+
+# Take input when you type a command and execute some functions based on that input and show you the execution of that function in other words: the output command.
+
+.SH SYNOPSIS
+./hsh
+/bin/[command] [option]
+
+.SH DESCRIPTION
+Is a simple hsh command language interpreter that executes commands using the path of this command that stored in the bin directory, the shell read from the standard input through the getline command, is based on the shell designed by Ken Thompson
+
+.SH EXAMPLE
+$ /bin/ls -l
+drwxrwxr-x 1 vagrant vagrant 279 Nov 04 03:14 README.md
+drwxrwxr-x 2 vagrant vagrant 165 Nov 04 23:46 arguments.c
+
+$ /bin/pwd
+/home/vagrant/test_my_own_shell
+
+$ hhhhh
+# Does not execute, write valid command: No such file or directory
+
+.SH SEE ALSO
+env(1), strtok(3), getline(3)
+
+.SH BUGS
+
+No bug present.
+
+.SH AUTHOR
+
+Etieno Andem
+Ikwuka A. Ch. Okoye
