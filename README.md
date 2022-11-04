@@ -7,6 +7,8 @@ Users typically interact with a Unix shell using a terminal emulator; however, d
 The thompson shell was the first unix shell,  sh, written by Ken Thompson at Bell Labs and distributed with Versions 1 through 6 of Unix, from 1971 to 1975.
 Though old and rudimentary per current requirements, it introduced many of the basic features common to all later Unix shells.
 
+Bourne shell
+		The Bourne shell, sh, was a new Unix shell by Stephen Bourne at Bell Labs. Distributed as the shell for UNIX Version 7 in 1979, it introduced the rest of the basic features considered common to all the later Unix shells, including here documents, command substitution, more generic variables and more extensive builtin control structures. The language, including the use of a reversed keyword to mark the end of a block, was influenced by ALGOL 68. Traditionally, the Bourne shell program name is sh and its path in the Unix file system hierarchy is /bin/sh. But a number of compatible work-alikes are also available with various improvements and additional features.
 				*List of allowed functions*
 List of allowed functions and system calls:
 access (man 2 access)
