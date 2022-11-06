@@ -9,6 +9,8 @@ Though old and rudimentary per current requirements, it introduced many of the b
 
 Bourne shell
 		The Bourne shell, sh, was a new Unix shell by Stephen Bourne at Bell Labs. Distributed as the shell for UNIX Version 7 in 1979, it introduced the rest of the basic features considered common to all the later Unix shells, including here documents, command substitution, more generic variables and more extensive builtin control structures. The language, including the use of a reversed keyword to mark the end of a block, was influenced by ALGOL 68. Traditionally, the Bourne shell program name is sh and its path in the Unix file system hierarchy is /bin/sh. But a number of compatible work-alikes are also available with various improvements and additional features.
+				*C shell*
+THe c shell is a unix created by Joy Bill. It was widely distributed with BSD Unix. The C shell is a command processor which is typically run in a text window, allowing the user to type and execute commands. The C shell can also read commands from a file, called a script. Like all Unix shells, it supports filename wildcarding, piping, here documents, command substitution, variables and control structures for condition-testing and iteration.
 				*List of allowed functions*
 List of allowed functions and system calls:
 access (man 2 access)
@@ -46,4 +48,24 @@ write (man 2 write)
 					*Compilation*
 This shell will be compiled with
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+					*Testing*
+THe shell program in interactive mode should  work like this:
+$ ./hsh
+($) /bin/ls
+hsh main.c shell.c
+($)
+($) exit
+$
+And non-interactive:
+$ echo "/bin/ls" | ./hsh
+hsh main.c shell.c test_ls_2
+$
+$ cat test_ls_2
+/bin/ls
+/bin/ls
+$
+$ cat test_ls_2 | ./hsh
+hsh main.c shell.c test_ls_2
+hsh main.c shell.c test_ls_2
+$
 
