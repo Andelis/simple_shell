@@ -5,113 +5,98 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <stdint.h>
-#include <sys/types.h>
+#include <wchar.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include <stdarg.h>
-#define BUFF_SIZE 1024
-#define PROMPT "$ "
-
-/* Error messages */
-#define EINVAL "Invalid argument"
-#define ENOMEM "Out of memory"
-#define ERROR "Error"
-#define WRONG "Something went wrong"
-#define END "exit"
+#include <sys/types.h>
 
 /**
- * struct built_in - list of builtins
- * @bi: The specifier
- * @f: The function associated with printing
- */
-typedef struct built_in
-{
-	char *bi;
-	int (*f)();
-} builtin_t;
-
-/**
- * struct list_s - singly linked list
- * @str: string - (malloc'ed string)
- * @len: length of the string
- * @next: points to the next node
+ * struct error_msg - Structure for error messages
+ * @ecode: error code
+ * @msg: pointer to error message
+ * @size: error message length
  *
- * Description: singly linked list node structure
- * for Holberton project
  */
-typedef struct list_s
+typedef struct error_msg
 {
-	char *str;
-	unsigned int len;
-	struct list_s *next;
-} list_t;
-extern char **environ;
+	int ecode;
+	char *msg;
+	int size;
+} error_msg_t;
 
-/* Lists.c */
-size_t list_len(list_t *h);
-list_t *add_node(list_t **head, char *str);
-list_t *add_node_end(list_t **head, char *str);
-void free_list(list_t *head);
-list_t *get_node(list_t **head, char *str);
+/**
+ * struct built_s - Built-in commands
+ * @command: command line
+ * @f: function to call
+ *
+ * Description: Longer description
+ */
+typedef struct built_s
+{
+	char *command;
+	void (*f)(char **);
+} built_t;
 
-/* prints.c */
-int _putchar(char c);
-void _strprint(char *str);
-void print_array(char **array);
-size_t print_list(list_t *h);
+/**
+ * struct history - Structure for each command read
+ * @id_h: error code
+ * @comms: commands
+ * @prev: previous element
+ * @next: next element
+ *
+ */
+typedef struct history
+{
+	unsigned int id_h;
+	char *comms;
+	struct history *prev;
+	struct history *next;
+} history_t;
 
-/* strings.c */
-int _strlen(char *s);
-int _strncmp(char *s1, char *s2, int n);
+/**
+ * struct command_s - Structure for each command
+ *
+ * @command: command with argument(s)
+ * @next: pointer to the next command
+ */
+
+typedef struct command_s
+{
+	char **command;
+	struct command_s *next;
+} command_t;
+
+/* shell functions */
+command_t **_prompt(char *, char *);
+int _fork(char *, command_t *, char *, char **);
+int _stat(char *, char *);
+int _exec(char *, char **, char **);
+
+/* vital utilities */
+char *read_line(void);
+
+size_t _strlen(char *str);
+command_t *_parser_cmd(char *, char *);
+size_t _parser_arg(char *, char **, size_t *);
+void print_char_pointer_arr(char **, size_t);
+int add_nodeint(history_t **head, char *str);
 char *_strdup(char *str);
-char *_strcpy(char *dest, char *src);
-char *_strcat(char *dest, char *src);
-
-/* More_strings */
+void free_listint(history_t *head);
+char *find_path(char **);
+char *_strstr(char *haystack, char *needle);
+void print_env(char **);
+char *_which(char *p_rec, char *first_arg);
+char *string_nconcat(char *s1, char *s2, unsigned int n);
 int _strcmp(char *s1, char *s2);
-char *_strchr(char *str, char c);
-int len_to_char(char *str, char c);
-int _atoi(char *s);
+void _exit_func(char **);
+int verif_built_comm(char *str, char **env);
 
-/* _strtok.c */
-int count_words(char *str, char delim);
-int _wrdlen(char *s, char delim);
-char **strtow(char *str, char delim);
+/* error handlers */
+void error_handler(char *, int);
+void error_handler_set_default(int, char *);
 
-/*  array_list.c */
-int arr_size(char **arr);
-list_t *array_to_list(char **array);
-char **list_to_array(list_t **head);
-void free_array(char **array);
-
-/* new_env.c */
-char *_getenv(char *name, list_t **env_head);
-int _setenv(char *name, char *value, list_t **env_head);
-int _unsetenv(char *name, list_t **env_head);
-int delete_node(list_t **head, char *string);
-char *var_str(char *name, char *value);
-
-/* _getline.c */
-int _getline(char *input, int size);
-int exit_shell(char **line_tok);
-void clear_buffer(char *buffer);
-char *mem_cpy(char *dest, char *src, int n);
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-
-/* cmd_line_loop.c */
-int cmd_line_loop(char *buffer, char *line, list_t **env_head);
-
-/* run_command */
-char **path_dirs_array(list_t **env_head);
-char *cmd_in_path(char *str, list_t **env_head);
-int run_command(char **line, list_t **env_head);
-
-/* built_ins.c */
-int built_ins(char **input, list_t **env_head);
-int exit_bi(char **line);
-int print_env(char **line, list_t **env_head);
-int set_env(char **line, list_t **env_head);
-int unset_env(char **line, list_t **env_head);
+/* command utilities */
+command_t *new_cmd_node(char *);
+void add_tok_to_cmd(char *, command_t *, size_t, char *);
 
 #endif /* SHELL_H */
